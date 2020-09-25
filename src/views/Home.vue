@@ -1,15 +1,9 @@
 <template>
   <div class="home">
     <div class="block">
-      <el-carousel height="728px">
-        <el-carousel-item>
-          <img src="../static/images/home/bg_img@2x.png" alt="" />
-        </el-carousel-item>
-        <el-carousel-item>
-          <img src="../static/images/home/bg_img@2x.png" alt="" />
-        </el-carousel-item>
-        <el-carousel-item>
-          <img src="../static/images/home/bg_img@2x.png" alt="" />
+      <el-carousel height="560px">
+        <el-carousel-item v-for="item in advertising" :key="item.id">
+          <img :src="item.advertImage" alt="" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -24,7 +18,22 @@ export default {
     Container,
   },
   data() {
-    return {};
+    return {
+      // 存放获取的广告内容
+      advertising: [],
+    };
+  },
+  methods: {
+    // 获取广告轮播图
+    async getAdvertising() {
+      const { data: res } = await this.$http.get(
+        "adverting/getAllAdvertisingList"
+      );
+      this.advertising = res.data;
+    },
+  },
+  created() {
+    this.getAdvertising();
   },
 };
 </script>

@@ -19,3 +19,67 @@ a {
 li {
     list-style: none;
 }
+
+.el-dialog__body {
+    box-sizing: border-box;
+    padding: 10px 60px 30px 60px;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled):hover {
+    color: #28bbac;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color: #28bbac;
+    color: #fff;
+}
+
+
+.el-tabs__active-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: #28bbac;
+    z-index: 1;
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    list-style: none;
+}
+
+.el-tabs__item.is-active {
+    width: 100px;
+    height: 40px;
+    padding: 0;
+    text-align: center;
+    color: #1a1a1a;
+}
+
+.el-tabs__item {
+    width: 100px;
+    height: 40px;
+    padding: 0;
+    font-size: 16px;
+    line-height: 18px;
+    text-align: center;
+    color: grey;
+    margin-top: 20px;
+}
+
+.el-tabs__item:hover {
+    color: #1a1a1a;
+}
+
+.el-tabs__nav-wrap::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    z-index: 1;
+}
+
+.el-tabs__header {
+    margin: 15px 0 1px 0;
+}

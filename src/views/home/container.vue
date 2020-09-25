@@ -34,63 +34,18 @@
       <div class="handpick">
         <h1>精选跨境电商课程</h1>
         <div class="content">
-          <div class="item">
+          <div class="item" v-for="item in CourseList" :key="item.courseIdSign">
             <div>
-              <img
-                src="../../static/images/home/list_cover_img01@2x.png"
-                alt=""
-              />
+              <img :src="item.coursePicture" alt="" />
             </div>
             <div class="item-text">
-              <p>亚马逊平台特色以及六大杀手锏亚马逊平台特色以及六大杀手锏</p>
+              <p>{{ item.courseName }}</p>
+              <span class="name"
+                >{{ item.teacherName }}【{{ item.schoolName }}】</span
+              >
               <div>
-                <span class="name">林启能【江西财经大学院】</span>
-                <span class="money">￥1980.00</span>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div>
-              <img
-                src="../../static/images/home/list_cover_img02@2x.png"
-                alt=""
-              />
-            </div>
-            <div class="item-text">
-              <p>亚马逊平台特色以及六大杀手锏亚马逊平台特色以及六大杀手锏</p>
-              <div>
-                <span class="name">林启能【江西财经大学院】</span>
-                <span class="money">￥1980.00</span>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div>
-              <img
-                src="../../static/images/home/list_cover_img01@2x.png"
-                alt=""
-              />
-            </div>
-            <div class="item-text">
-              <p>亚马逊平台特色以及六大杀手锏亚马逊平台特色以及六大杀手锏</p>
-              <div>
-                <span class="name">林启能【江西财经大学院】</span>
-                <span class="money">￥1980.00</span>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div>
-              <img
-                src="../../static/images/home/list_cover_img02@2x.png"
-                alt=""
-              />
-            </div>
-            <div class="item-text">
-              <p>亚马逊平台特色以及六大杀手锏亚马逊平台特色以及六大杀手锏</p>
-              <div>
-                <span class="name">林启能【江西财经大学院】</span>
-                <span class="money">￥1980.00</span>
+                <span class="name">{{ item.studyCount }}已学</span>
+                <span class="money">￥{{ item.coursePrice }}</span>
               </div>
             </div>
           </div>
@@ -281,7 +236,26 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      // 课程列表内容
+      CourseList: [],
+    };
+  },
+  methods: {
+    // 获取首页课程列表
+    async getCourseList() {
+      const { data: res } = await this.$http.get(
+        "courseInfo/getCourseRecommended"
+      );
+      this.CourseList = res.data;
+    },
+  },
+  created() {
+    this.getCourseList();
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -338,8 +312,11 @@ h1 {
       justify-content: space-between;
       .item {
         width: 280px;
-        height: 250px;
+        height: 260px;
         border: 1px solid #ccc;
+        img {
+          width: 100%;
+        }
         .item-text {
           width: 100%;
           box-sizing: border-box;
