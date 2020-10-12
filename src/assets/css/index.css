@@ -83,3 +83,14 @@ li {
 .el-tabs__header {
     margin: 15px 0 1px 0;
 }
+.el-carousel__mask {
+    width: 293px;
+    height: 74px;
+    background-color:rgba(0, 0, 0, 0);
+    opacity: 0.24;
+    transition: 0.2s;
+  }
+  .essay-banner .el-carousel__mask {
+    background-color: #0e776c;
+    opacity: 0.5;
+  }

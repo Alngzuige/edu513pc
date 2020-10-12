@@ -5,6 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    loginDialogVisible:false
+  },
+  getters:{
+    changeLoginDialogVisible(state){
+      return state.loginDialogVisible = true
+    }
   },
   mutations: {
   },

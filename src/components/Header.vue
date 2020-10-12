@@ -5,12 +5,16 @@
         <img src="../static/images/home/logo@2x.png" alt="" />
       </div>
       <div class="nav">
-        <p @click="To('/')">首页</p>
-        <p @click="To('/course')">课程</p>
-        <p @click="To('/information')">实训</p>
-        <p @click="To('/job')">就业</p>
-        <p @click="To('/practical')">资讯</p>
-        <!-- <router-link tag="p" to="/course">课程</router-link>
+        <p
+          :class="index == navIndex ? 'router-link-exact-active' : ''"
+          @click="To(item.url)"
+          v-for="(item, index) in tabList"
+          :key="index"
+        >
+          {{ item.name }}
+        </p>
+        <!-- <router-link tag="p" to="/">首页</router-link>
+        <router-link tag="p" to="/course">课程</router-link>
         <router-link tag="p" to="/information">实训</router-link>
         <router-link tag="p" to="/job">就业</router-link>
         <router-link tag="p" to="/practical">资讯</router-link> -->
@@ -19,92 +23,96 @@
         <div class="input">
           <input type="text" placeholder="搜索感兴趣的课程" />
         </div>
-        <div>
+        <div v-if="show">
           <p class="color" @click="loginDialogVisible = true">登录</p>
           <p>|</p>
-          <p @click="registerDialogVisible = true">注册</p>
+          <p @click="(loginDialogVisible = true), (tigger = false)">注册</p>
+        </div>
+        <div v-else>
+          <p class="color">已登录</p>
         </div>
       </div>
     </div>
     <!-- 注册提示框 -->
-    <el-dialog :visible.sync="registerDialogVisible" width="23%">
-      <div class="zhuce">
-        <span class="p1">注册</span>
-        <span
-          class="p2"
-          @click="(loginDialogVisible = true), (registerDialogVisible = false)"
-          >已有账号，去登陆</span
-        >
-      </div>
-      <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
-        <el-form-item prop="mobile">
-          <el-input
-            prefix-icon="el-icon-search"
-            v-model="registerForm.mobile"
-            placeholder="请输入手机号码"
-          ></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input
-            prefix-icon="el-icon-search"
-            v-model="registerForm.password"
-            placeholder="请输入密码"
-            show-password
-          ></el-input>
-        </el-form-item>
-        <el-form-item prop="mobileCode">
-          <el-input
-            prefix-icon="el-icon-search"
-            v-model="registerForm.mobileCode"
-            placeholder="请输入验证码"
-          ></el-input>
-        </el-form-item>
-      </el-form>
-      <el-row>
-        <el-col :span="24">
-          <button class="registerBtn" @click="registerBtn">注册</button>
-        </el-col>
-      </el-row>
-    </el-dialog>
+    <!-- <el-dialog :visible.sync="registerDialogVisible" width="23%">
+      
+    </el-dialog> -->
     <!-- 登录提示框 -->
     <el-dialog :visible.sync="loginDialogVisible" width="23%">
-      <div class="zhuce">
-        <span class="p1">登录</span>
-        <span
-          class="p2"
-          @click="(loginDialogVisible = false), (registerDialogVisible = true)"
-          >免费注册</span
-        >
+      <div v-if="tigger">
+        <div class="zhuce">
+          <span class="p1">登录</span>
+          <span class="p2" @click="tigger = false">免费注册</span>
+        </div>
+        <el-form :model="loginForm" :rules="registerRules" ref="loginForm">
+          <el-form-item prop="mobile">
+            <el-input
+              prefix-icon="el-icon-search"
+              v-model="loginForm.phone"
+              placeholder="请输入手机号码"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input
+              prefix-icon="el-icon-search"
+              v-model="loginForm.password"
+              placeholder="请输入密码"
+              show-password
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="mobileCode">
+            <el-input
+              prefix-icon="el-icon-search"
+              v-model="loginForm.code"
+              placeholder="请输入验证码"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+        <el-row>
+          <el-col :span="24">
+            <button class="registerBtn" @click="loginBtn">登录</button>
+          </el-col>
+        </el-row>
       </div>
-      <el-form :model="loginForm" :rules="registerRules" ref="loginForm">
-        <el-form-item prop="mobile">
-          <el-input
-            prefix-icon="el-icon-search"
-            v-model="loginForm.phone"
-            placeholder="请输入手机号码"
-          ></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input
-            prefix-icon="el-icon-search"
-            v-model="loginForm.password"
-            placeholder="请输入密码"
-            show-password
-          ></el-input>
-        </el-form-item>
-        <el-form-item prop="mobileCode">
-          <el-input
-            prefix-icon="el-icon-search"
-            v-model="loginForm.code"
-            placeholder="请输入验证码"
-          ></el-input>
-        </el-form-item>
-      </el-form>
-      <el-row>
-        <el-col :span="24">
-          <button class="registerBtn" @click="loginBtn">登录</button>
-        </el-col>
-      </el-row>
+      <div v-else>
+        <div class="zhuce">
+          <span class="p1">注册</span>
+          <span class="p2" @click="tigger = true">已有账号，去登陆</span>
+        </div>
+        <el-form
+          :model="registerForm"
+          :rules="registerRules"
+          ref="registerForm"
+        >
+          <el-form-item prop="mobile">
+            <el-input
+              prefix-icon="el-icon-search"
+              v-model="registerForm.mobile"
+              placeholder="请输入手机号码"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input
+              prefix-icon="el-icon-search"
+              v-model="registerForm.password"
+              placeholder="请输入密码"
+              show-password
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="mobileCode">
+            <el-input
+              prefix-icon="el-icon-search"
+              v-model="registerForm.mobileCode"
+              placeholder="请输入验证码"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+        <el-row>
+          <el-col :span="24">
+            <button class="registerBtn" @click="registerBtn">注册</button>
+          </el-col>
+        </el-row>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -113,9 +121,34 @@
 export default {
   data() {
     return {
+      tabList: [
+        {
+          name: "首页",
+          url: "/",
+        },
+        {
+          name: "课程",
+          url: "/course",
+        },
+        {
+          name: "实训",
+          url: "/information",
+        },
+        {
+          name: "就业",
+          url: "/job",
+        },
+        {
+          name: "资讯",
+          url: "/practical",
+        },
+      ],
+      navIndex: 0,
       // 注册提示弹窗
       registerDialogVisible: false,
       loginDialogVisible: false,
+      tigger: true,
+      show: true,
       // 注册表单的内容
       registerForm: {
         mobile: "",
@@ -141,9 +174,42 @@ export default {
       },
     };
   },
+  created() {
+    this.showName();
+    3
+  },
+  watch: {
+    $route(to, from) {
+      this.getUrl(to.path);
+    },
+  },
   methods: {
-    To(pach){
-      this.$router.push(pach);
+    getUrl(url) {
+      this.tabList.forEach((item, index) => {
+        if (item.url == url) {
+          this.navIndex = index;
+          console.log("当前选中项是", this.navIndex);
+        }
+      });
+    },
+    showName() {
+      const tokenStr = window.sessionStorage.getItem("token");
+      if (tokenStr) {
+        return (this.show = false);
+      }
+    },
+    To(pach) {
+      if (pach === "/job") {
+        const tokenStr = window.sessionStorage.getItem("token");
+        if (!tokenStr) {
+          this.$message.error("请登录！");
+          return (this.loginDialogVisible = true);
+        } else {
+          this.$router.push(pach);
+        }
+      } else {
+        this.$router.push(pach);
+      }
     },
     async registerBtn() {
       const data = await this.$http.post("register", this.registerForm);
@@ -164,10 +230,14 @@ export default {
           type: "error",
         });
       }
-      window.sessionStorage.setItem("token",data.data.data.token)
+      window.sessionStorage.setItem("token", data.data.data.token);
       this.$message.success("登录成功");
+      this.show = false;
       this.loginDialogVisible = false;
     },
+  },
+  mounted() {
+    this.getUrl(this.$route.path);
   },
 };
 </script>
@@ -175,7 +245,6 @@ export default {
 <style lang="scss" scoped>
 .contaner {
   box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.18);
-  z-index: 10;
   position: relative;
 }
 .header {
@@ -191,6 +260,9 @@ export default {
     justify-content: space-between;
     p {
       cursor: pointer;
+      &:hover {
+        color: #28bbac;
+      }
       &.router-link-exact-active {
         color: #28bbac;
       }

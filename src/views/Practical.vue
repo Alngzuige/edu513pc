@@ -1,9 +1,14 @@
 <template>
   <div class="practical">
     <div class="banner">
-      <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item v-for="item in 3" :key="item">
-          <h3 class="medium">{{ item }}</h3>
+      <el-carousel :autoplay="false" type="card" @change="add">
+        <el-carousel-item
+          v-for="item in ['跨境电商', '数据分析师', '电商设计']"
+          :key="item"
+        >
+          <div class="essay-banner-card">
+            <p>{{ item }}</p>
+          </div>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -94,6 +99,9 @@ export default {
       });
       this.PracticalList = res.data.list;
     },
+    add(){
+      this.activeName="message";
+    },
     async getCourseTraining() {
       const { data: res } = await this.$http.get(
         "courseInfo/getCourseTraining"
@@ -111,6 +119,7 @@ export default {
 <style lang="scss" scoped>
 .practical {
   width: 100%;
+  min-height: calc(100vh - 340px);
   background-color: #f5f5f5;
   .banner {
     width: 100%;
@@ -119,6 +128,37 @@ export default {
     overflow: hidden;
     margin-bottom: 20px;
     background-image: url(https://front.513.com/front/articles/banner_img_bg%402x.png);
+    .el-carousel--horizontal {
+      margin: 80px auto 0;
+      width: 890px;
+      height: 150px;
+      overflow: hidden;
+    }
+    .el-carousel__container {
+      height: 200px;
+    }
+    .essay-banner .el-carousel__mask {
+      background-color: #0e776c;
+      opacity: 0.5;
+    }
+    .essay-banner-card {
+      text-align: center;
+      width: 293px;
+      height: 74px;
+      background: #28bbac;
+      border: 2px solid #28bbac;
+      box-shadow: 0 5px 14px 0 rgba(14, 119, 108, 0.5);
+      border-radius: 2px;
+      margin: 0;
+      position: relative;
+    }
+    .essay-banner-card p {
+    font-size: 38px;
+    font-family: Source Han Sans CN;
+    font-weight: 400;
+    color: #fff;
+    line-height: 74px;
+}
   }
   .practical-main {
     width: 1200px;
